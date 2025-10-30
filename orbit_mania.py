@@ -12,25 +12,25 @@ class World:
         self.small_font = pygame.font.Font(None, 40)
 
         # Load images
-        self.background_image = pygame.image.load("background.png")
-        self.planet_image = pygame.image.load("planet.png")
-        self.player_image = pygame.image.load("player.png")
-        self.obstacle_image = pygame.image.load("obstacle.png")
-        self.explosion_image = pygame.image.load("explosion.png")
-        self.shield_image = pygame.image.load("shield.png")
-        self.energy_packet_image = pygame.image.load("energy_packet.png")
+        self.background_image = pygame.image.load("assets/background.png")
+        self.planet_image = pygame.image.load("assets/planet.png")
+        self.player_image = pygame.image.load("assets/player.png")
+        self.obstacle_image = pygame.image.load("assets/obstacle.png")
+        self.explosion_image = pygame.image.load("assets/explosion.png")
+        self.shield_image = pygame.image.load("assets/shield.png")
+        self.energy_packet_image = pygame.image.load("assets/energy_packet.png")
 
         # Load background music
         pygame.mixer.init()
-        self.background_music = pygame.mixer.music.load("background_music.mp3")
+        self.background_music = pygame.mixer.music.load("assets/background_music.mp3")
         pygame.mixer.music.play(-1)
         
         # Load sounds
-        self.activate_shield_sound = pygame.mixer.Sound("activate_shield.mp3")
+        self.activate_shield_sound = pygame.mixer.Sound("assets/activate_shield.mp3")
         self.activate_shield_sound.set_volume(20.0)
-        self.energy_packet_sound = pygame.mixer.Sound("energy_packet.mp3")
+        self.energy_packet_sound = pygame.mixer.Sound("assets/energy_packet.mp3")
         self.energy_packet_sound.set_volume(20.0)
-        self.game_over_sound = pygame.mixer.Sound("game_over.mp3")
+        self.game_over_sound = pygame.mixer.Sound("assets/game_over.mp3")
         self.game_over_sound.set_volume(3.0)
 
         # Application

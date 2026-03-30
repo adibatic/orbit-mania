@@ -1,5 +1,5 @@
 
-# Orbit Mania
+# Orbit Mania (Pygame)
 "Orbit Mania" is a **space-themed arcade game** where the player pilots a spacecraft, dodging asteroids while managing fuel consumption. The game challenges players to survive as long as possible while optimizing movement efficiency.
 
 This game is inspired by **orbital mechanics**, specifically the **Hohmann transfer**, a space maneuver used to transfer a spacecraft between two orbits efficiently. The concept fascinated me during spring break, motivating the creation of this game.

@@ -1,48 +1,116 @@
+# Orbit Mania
+**A Newtonian Space Simulation & Reinforcement Learning Environment**
 
-# Orbit Mania (Pygame)
-"Orbit Mania" is a **space-themed arcade game** where the player pilots a spacecraft, dodging asteroids while managing fuel consumption. The game challenges players to survive as long as possible while optimizing movement efficiency.
+## Overview
 
-This game is inspired by **orbital mechanics**, specifically the **Hohmann transfer**, a space maneuver used to transfer a spacecraft between two orbits efficiently. The concept fascinated me during spring break, motivating the creation of this game.
+Orbit Mania is an arcade-style space simulation where players or AI agents pilot a spacecraft, dodge asteroids, and manage fuel using Hohmann transfers.
 
-## Features
-- Real-time spacecraft control with keyboard input
-- Asteroid obstacles with collision detection
-- Fuel management system requiring strategic movement
-- Sound effects and background music to enhance gameplay
-- Visual assets including planets, energy packets, shields, and explosions
+The project consists of a physics simulation built into a headless OpenAI `gymnasium` environment, which is decoupled from the Pygame graphics. This architecture supports training reinforcement learning agents using the Proximal Policy Optimization (PPO) algorithm.
 
-## Files & Structure
+---
+
+## Repository Structure
+
 ```
-README.md                      # Project overview and instructions
-main.py                        # Game entry point
-orbit_mania.py                  # Game logic
-orbit_mania.pdf                 # Game report
-orbit_mania.tex                 # LaTeX source for report
-assets/                         # All media assets
-├── background.png
-├── background_music.mp3
-├── activate_shield.mp3
-├── energy_packet.mp3
-├── energy_packet.png
-├── explosion.png
-├── figure1.png
-├── figure2.png
-├── figure3.png
-├── game_over.mp3
-├── obstacle.png
-├── planet.png
-├── player.png
-└── shield.png
+orbit-mania/
+├── src/
+│   ├── env.py           # Gymnasium RL environment and physics engine
+│   ├── play.py          # Pygame rendering engine and main entry point
+│   ├── train.py         # AI script for training the PPO agent
+│   └── utilities.py     # Graphics bridging and asset loaders
+├── assets/              # Sprites, graphics, and sound assets
+├── figures/             # LaTeX diagrams and scientific figures
+├── paper/               # Scientific game report (LaTeX source)
+├── models/              # Pretrained neural network weights
+├── requirements.txt     # Python dependencies
+└── README.md            # Project documentation
 ```
+
+---
+
+## Software Requirements
+
+- **Host PC:** Python ≥ 3.10 (Linux / macOS / Windows)
+- **Engine:** `pygame`, `numpy`
+- **Machine Learning:** `gymnasium`, `stable-baselines3[extra]`
+- **Documentation:** LaTeX distribution (TeX Live / MiKTeX) for compiling the physics report
+
+---
+
+## Installation & Setup
+
+Install the required dependencies:
+
+```bash
+python -m pip install -r requirements.txt
+```
+
+> **Note:** TensorBoard is automatically installed alongside `stable-baselines3` and can be used to view loss graphs during training.
+
+---
 
 ## Usage
-1. Ensure Python 3.x is installed.
-2. Run the game:
+
+### Manual Play (Human Mode)
+
 ```bash
-python main.py
+python src/play.py
 ```
 
-3. Play the game using the controls displayed on the start screen.
+**Controls:**
 
-## Documentation
-For detailed explanations of the game's mechanics, theoretical background, and code design, see [orbit_mania.pdf](./orbit_mania.pdf).
+| Key | Action |
+|-----|--------|
+| `Space` | Switch orbital radius (inner `r=125` ↔ outer `r=225`) |
+| `↑` / `↓` Arrow | Fine-tune prograde / retrograde thrust |
+| `S` (hold) | Toggle deflector shield (consumes fuel) |
+| `Esc` | Quit game |
+
+### AI Inference Mode
+
+Run a pretrained RL agent:
+
+```bash
+python src/play.py --ai --model models/ppo_orbit_mania.zip
+```
+
+### Training a New AI Agent
+
+```bash
+python src/train.py
+```
+
+Monitor training metrics with TensorBoard:
+
+```bash
+tensorboard --logdir logs/
+```
+
+---
+
+## System Architecture
+
+### 1. The Headless Environment (`env.py`)
+
+The `OrbitEnv` class extends `gymnasium.Env`. It uses Euler integration over discrete time steps (`dt`) to calculate acceleration based on $F = G \frac{Mm}{r^2}$. The environment operates independently of the graphics, processing state arrays (Observation Space) and accepting inputs (Action Space).
+
+### 2. Pygame Rendering Loop (`play.py`)
+
+The Pygame wrapper reads the coordinate arrays produced by `OrbitEnv.step()` and projects them into 2D sprite transformations for visualization.
+
+---
+
+## Writing & Manuscript
+
+The project manuscript is located in the `paper/` directory.
+
+- Compile `paper/main.tex` using `latexmk` or an equivalent editor extension.
+- Requires a LaTeX distribution such as TeX Live or MiKTeX.
+- The manuscript pulls vector figures directly from the `figures/` directory.
+
+---
+
+## Author
+
+**Adriel I. Santoso**  
+Department of Mechanical and Aerospace Engineering, Tohoku University
